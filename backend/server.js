@@ -1,3 +1,4 @@
+console.log("SERVER FILE LOADED");
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
@@ -14,11 +15,16 @@ app.use(express.json());
 app.get('/health', (req, res) => {
   res.json({ status: "ok" });
 });
+app.get('/test', (req, res) => {
+  console.log("TEST ROUTE HIT");
+  res.json({ message: "API working" });
+});
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("DB Error:", err));
+
 
 // Start server
 app.listen(5000, () => {
