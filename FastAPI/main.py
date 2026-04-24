@@ -4,6 +4,8 @@ from utils import analyze_text_logic
 from fastapi import File, UploadFile
 from cv_utils import detect_image
 import shutil
+from models import SeverityInput
+from utils import predict_severity_logic
 
 
 app = FastAPI()
@@ -26,3 +28,11 @@ def analyze_image(file:UploadFile=File(...)):
 
     results=detect_image(file_path)
     return {"detections": results}
+
+@app.post("/predict-severity")
+def predict_severity(data: SeverityInput):
+    result = predict_severity_logic(
+        data.text,
+        data.image_confidence
+    )
+    return result
